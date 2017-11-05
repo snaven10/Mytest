@@ -1,20 +1,6 @@
 <?php
-					class entradas{
-						private $pdo;
-
-
-						public function __Construct(){
-							try{
-							$this->pdo = new PDO('mysql:host=localhost;dbname=heavy_parts', 'root','');
-							$this->pdo->exec('SET CHARACTER SET utf8');
-							$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-							$this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-							}catch(PDOException $e){
-								echo 'Error!: '.$e->getMessage();
-								die();
-							}
-						}
-
+include 'conectar.php';
+					class entradas extends conectar{
 						public function get_entradas(){
 							try{
 								$q = $this->pdo->prepare('SELECT * FROM entradas where Estado = 1');
@@ -25,7 +11,7 @@
 								echo 'Error '.$e->getMessage();
 							}
 						}
-						
+
 						public function get_id_entradas($id){
 							try{
 								$q = $this->pdo->prepare('SELECT * FROM entradas where Id_entradas = ?');
@@ -40,7 +26,7 @@
 						public function add_entradas($Fecha,$Numero){
 							try {
 								$q = $this->pdo->prepare('INSERT INTO entradas(Fecha,Numero) values(?,?)');
-								 
+
 								$q->bindParam(1,$Fecha);
 						$q->bindParam(2,$Numero);
 						$q->execute();
@@ -55,10 +41,10 @@
 						public function edit_entradas($Id_entradas,$Fecha,$Numero){
 							try {
 								$q = $this->pdo->prepare('UPDATE entradas SET Fecha =?, Numero =? WHERE Id_entradas=?');
-								 
+
 								$q->bindParam(1,$Fecha);
 						$q->bindParam(2,$Numero);
-						$q->bindParam(3,$Id_entradas); 
+						$q->bindParam(3,$Id_entradas);
 								$q->execute();
 								$this->pdo = null;
 								return 0;
@@ -79,6 +65,6 @@
 							}
 							return 1;
 						}
-						
+
 					}
 					?>

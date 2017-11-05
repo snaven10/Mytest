@@ -1,20 +1,6 @@
 <?php
-					class producto{
-						private $pdo;
-
-
-						public function __Construct(){
-							try{
-							$this->pdo = new PDO('mysql:host=localhost;dbname=heavy_parts', 'root','');
-							$this->pdo->exec('SET CHARACTER SET utf8');
-							$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-							$this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-							}catch(PDOException $e){
-								echo 'Error!: '.$e->getMessage();
-								die();
-							}
-						}
-
+include 'conectar.php';
+					class producto extends conectar{
 						public function get_producto(){
 							try{
 								$q = $this->pdo->prepare('SELECT * FROM producto');
@@ -86,7 +72,7 @@
 						public function add_producto($Cod_producto,$Cod_oem,$Nombre,$Descripcion,$img,$Id_proveedor,$Id_ubicacion,$Estado){
 							try {
 								$q = $this->pdo->prepare('INSERT INTO producto(Cod_producto,Cod_oem,Nombre,Descripcion,img,Id_proveedor,Id_ubicacion,Estado) values(?,?,?,?,?,?,?,?)');
-								 
+
 								$q->bindParam(1,$Cod_producto);
 								$q->bindParam(2,$Cod_oem);
 								$q->bindParam(3,$Nombre);
@@ -107,7 +93,7 @@
 						public function edit_producto($Id_producto,$Cod_producto,$Nombre,$Descripcion,$img,$Id_proveedor,$Id_ubicacion,$Estado){
 							try {
 								$q = $this->pdo->prepare('UPDATE producto SET Cod_producto =?, Nombre =?, Descripcion =?, img =?, Id_proveedor =?, Id_ubicacion =?, Estado =? WHERE Id_producto=?');
-								 
+
 								$q->bindParam(1,$Cod_producto);
 								$q->bindParam(2,$Nombre);
 								$q->bindParam(3,$Descripcion);
@@ -136,6 +122,6 @@
 							}
 							return 1;
 						}
-						
+
 					}
 					?>

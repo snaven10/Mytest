@@ -1,20 +1,6 @@
 <?php
-					class detalle_venta{
-						private $pdo;
-
-
-						public function __Construct(){
-							try{
-							$this->pdo = new PDO('mysql:host=localhost;dbname=heavy_parts', 'root','');
-							$this->pdo->exec('SET CHARACTER SET utf8');
-							$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-							$this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-							}catch(PDOException $e){
-								echo 'Error!: '.$e->getMessage();
-								die();
-							}
-						}
-
+include 'conectar.php';
+					class detalle_venta extends conectar{
 						public function get_detalle_venta(){
 							try{
 								$q = $this->pdo->prepare('SELECT * FROM detalle_venta');

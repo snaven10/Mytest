@@ -1,20 +1,6 @@
 <?php
-					class ubicacion{
-						private $pdo;
-
-
-						public function __Construct(){
-							try{
-							$this->pdo = new PDO('mysql:host=localhost;dbname=heavy_parts', 'root','');
-							$this->pdo->exec('SET CHARACTER SET utf8');
-							$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-							$this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-							}catch(PDOException $e){
-								echo 'Error!: '.$e->getMessage();
-								die();
-							}
-						}
-
+include 'conectar.php';
+					class ubicacion extends conectar{
 						public function get_ubicacion(){
 							try{
 								$q = $this->pdo->prepare('SELECT * FROM ubicacion');
@@ -25,7 +11,7 @@
 								echo 'Error '.$e->getMessage();
 							}
 						}
-						
+
 						public function get_id_ubicacion($id){
 							try{
 								$q = $this->pdo->prepare('SELECT * FROM ubicacion where Id_ubicacion = ?');
@@ -53,7 +39,7 @@
 						public function add_ubicacion($Estante,$Repisa,$Casilla,$Estado){
 							try {
 								$q = $this->pdo->prepare('INSERT INTO ubicacion(Estante,Repisa,Casilla,Estado) values(?,?,?,?)');
-								 
+
 								$q->bindParam(1,$Estante);
 						$q->bindParam(2,$Repisa);
 						$q->bindParam(3,$Casilla);
@@ -70,12 +56,12 @@
 						public function edit_ubicacion($Id_ubicacion,$Estante,$Repisa,$Casilla,$Estado){
 							try {
 								$q = $this->pdo->prepare('UPDATE ubicacion SET Estante =?, Repisa =?, Casilla =?, Estado =? WHERE Id_ubicacion=?');
-								 
+
 								$q->bindParam(1,$Estante);
 						$q->bindParam(2,$Repisa);
 						$q->bindParam(3,$Casilla);
 						$q->bindParam(4,$Estado);
-						$q->bindParam(5,$Id_ubicacion); 
+						$q->bindParam(5,$Id_ubicacion);
 								$q->execute();
 								$this->pdo = null;
 								return 0;
@@ -96,6 +82,6 @@
 							}
 							return 1;
 						}
-						
+
 					}
 					?>
