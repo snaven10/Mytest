@@ -1,6 +1,19 @@
 <?php
-include 'conectar.php';
-					class detalle_venta extends conectar{
+					class detalle_venta{
+						private $pdo;
+
+
+						public function __Construct(){
+							try{
+							$this->pdo = new PDO('mysql:host=zpj83vpaccjer3ah.chr7pe7iynqr.eu-west-1.rds.amazonaws.com;dbname=bh2bqxaj2gufz5p5', 'pyhbktn8q6qv6dqn','qy7z8czcb88hyghz');							$this->pdo->exec('SET CHARACTER SET utf8');
+							$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+							$this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+							}catch(PDOException $e){
+								echo 'Error!: '.$e->getMessage();
+								die();
+							}
+						}
+
 						public function get_detalle_venta(){
 							try{
 								$q = $this->pdo->prepare('SELECT * FROM detalle_venta');
@@ -23,9 +36,31 @@ include 'conectar.php';
 								echo 'Error '.$e->getMessage();
 							}
 						}
+						public function buscar_id_pedido($id){
+							try{
+								$q = $this->pdo->prepare('SELECT * FROM detalle_venta where Id_pedido = ?');
+								$q->bindParam(1,$id);
+								$q->execute();
+								return $q->fetchAll();
+								$this->pdo = null;
+							}catch(PDOException $e){
+								echo 'Error '.$e->getMessage();
+							}
+						}
 						public function get_id_producto($id){
 							try{
 								$q = $this->pdo->prepare('SELECT * FROM producto where Id_producto = ?');
+								$q->bindParam(1,$id);
+								$q->execute();
+								return $q->fetchAll();
+								$this->pdo = null;
+							}catch(PDOException $e){
+								echo 'Error '.$e->getMessage();
+							}
+						}
+						public function get_precio_id_producto($id){
+							try{
+								$q = $this->pdo->prepare('SELECT * FROM precio where Id_producto = ?');
 								$q->bindParam(1,$id);
 								$q->execute();
 								return $q->fetchAll();
